@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Add Category - Modern E-Commerce{% endblock %}
+{% block contentblock %}
+<div class="row justify-content-center mb-5 mt-4">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="product-card" style="padding: 2.5rem; display: block; height: auto;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold m-0" style="background: linear-gradient(45deg, var(--primary), #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Create New Category
+                </h2>
+                <a href="{% url 'add-product' %}" class="btn btn-outline-secondary btn-sm">Back to Product Form</a>
+            </div>
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="form-label text-muted">Category Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control form-control-lg" required placeholder="e.g. Smart Watches">
+                    <div class="form-text mt-2">The system will automatically generate a unique, SEO-friendly slug for this category.</div>
+                </div>
+                
+                <button type="submit" class="btn-primary-custom w-100 fs-5 py-3">
+                    Add Category
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

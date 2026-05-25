@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}{% if is_update %}Update{% else %}Add{% endif %} Product - Modern E-Commerce{% endblock %}
+{% block contentblock %}
+<div class="row justify-content-center mb-5">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="product-card" style="padding: 2.5rem; display: block; height: auto;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold m-0" style="background: linear-gradient(45deg, var(--primary), #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    {% if is_update %}Update Product{% else %}Add New Product{% endif %}
+                </h2>
+                <a href="{% url 'vdash' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+            </div>
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    {{ form.as_p }}
+                    <div class="mt-2 text-end">
+                        <small class="text-muted">Don't see your category?</small>
+                        <a href="{% url 'add-category' %}" class="fw-bold" style="color: var(--primary); text-decoration: none;">+ Create New Category</a>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="images" class="fw-bold mb-2 text-muted">Upload Additional Product Images: </label>
+                    <input type="file" name="images" multiple class="form-control form-control-lg">
+                </div>
+                
+                <button type="submit" class="btn-primary-custom w-100 fs-5 py-3">
+                    {% if is_update %}Save Changes{% else %}Publish Product{% endif %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

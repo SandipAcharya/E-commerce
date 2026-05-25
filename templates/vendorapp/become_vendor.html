@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} Become a Vendor - Modern E-Commerce {% endblock %}
+
+{% block contentblock %}
+<div class="row justify-content-center mb-5">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="product-card" style="padding: 2.5rem; display: block; height: auto;">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold" style="background: linear-gradient(45deg, var(--primary), #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Become a Vendor</h2>
+                <p class="text-muted">Start selling your products to thousands of customers.</p>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label text-muted">Store Name <span class="text-danger">*</span></label>
+                    <input type="text" name="store_name" class="form-control form-control-lg" required placeholder="e.g. The Tech Hub">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted">Store Description</label>
+                    <textarea name="description" class="form-control form-control-lg" rows="4" placeholder="Tell us about your products..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary-custom w-100 fs-5 py-3">Open My Store</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
