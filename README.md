@@ -2,6 +2,16 @@
 
 A highly scalable, secure, and fully-featured multi-vendor e-commerce platform built with Django and Django REST Framework. This project demonstrates enterprise-level backend architecture, highly optimized database queries, and a modern frontend design utilizing glassmorphism aesthetics.
 
+## 📸 Application Screenshots
+
+| Guest View | Become a Vendor | Vendor Dashboard |
+|:---:|:---:|:---:|
+| ![Guest](figs/01_guest_homepage.png) | ![Vendor Signup](figs/02_become_vendor.png) | ![Dashboard](figs/03_vendor_dashboard.png) |
+
+| Update Product | My Orders | Khalti Payment | Admin Panel |
+|:---:|:---:|:---:|:---:|
+| ![Update](figs/04_update_product.png) | ![Orders](figs/05_my_orders.png) | ![Khalti](figs/06_khalti_payment.png) | ![Admin](figs/07_admin_panel.png) |
+
 ## 🌟 Key Features
 
 ### 🛒 Robust E-Commerce Core
