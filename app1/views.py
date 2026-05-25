@@ -53,6 +53,7 @@ from .serializers import CartSerializer
 
 class CartViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = None  # Cart is always a single object, never paginated
 
     def _get_or_create_cart(self, request):
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -148,6 +149,7 @@ from .serializers import OrderSerializer
 class OrderViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = None  # Orders are user-specific, no pagination needed
 
     def get_queryset(self):
         return Order.objects.filter(customer=self.request.user).select_related('payment').prefetch_related('items__product').order_by('-created_at')

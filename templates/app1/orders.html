@@ -37,18 +37,26 @@ function loadOrders() {
             'X-CSRFToken': getCookie('csrftoken')
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(data => {
         const container = document.getElementById('orders-container');
         container.innerHTML = '';
         
-        if (!data || data.length === 0) {
+        // Handle DRF pagination: response is {count, results:[]} OR a plain array
+        const orders = Array.isArray(data) ? data : (data.results || []);
+        
+        if (orders.length === 0) {
             container.innerHTML = '<div class="text-center py-5"><h5 class="text-muted">You have no orders yet.</h5><a href="/" class="btn-primary-custom mt-3" style="display:inline-block; width:auto;">Start Shopping</a></div>';
             return;
         }
 
         let html = '';
-        data.forEach(order => {
+        orders.forEach(order => {
             const date = new Date(order.created_at).toLocaleString();
             let statusBadgeClass = 'bg-warning text-dark';
             if (order.status === 'completed') statusBadgeClass = 'bg-success';
@@ -110,7 +118,7 @@ function loadOrders() {
     })
     .catch(error => {
         console.error('Error loading orders:', error);
-        document.getElementById('orders-container').innerHTML = '<div class="text-danger text-center">Failed to load orders.</div>';
+        document.getElementById('orders-container').innerHTML = `<div class="text-danger text-center">Failed to load orders: ${error.message}. Check the browser console for details.</div>`;
     });
 }
 
