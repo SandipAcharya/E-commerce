@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{%extends 'base.html'%}
+{%block contentblock %}
+<form action="" method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+    {{user_form.as_p}}
+    <label for="id_is_vendor" >Are you a vendor ?</label>
+    {{user_form.is_vendor}}
+    <div id="vendor-fields" style="display: none;">
+        {{vendor_form.as_p}}
+    </div>
+    <button type="submit">SignUp</button>
+</form>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    let isVendorCheckbox = document.querySelector("#id_is_vendor");
+    let vendorFields = document.getElementById("vendor-fields");
+
+    function toggleVendorFields(){
+        if(isVendorCheckbox.checked){
+            vendorFields.style.display = "block";
+            vendorFields.querySelectorAll("input,textarea,select").forEach(function
+                          (field){field.required=true;});
+                           
+        }
+        else{
+            vendorFields.style.display = "none";
+            vendorFields.querySelectorAll("input,textarea,select").forEach(function
+                                       (field){field.required=false; });
+                                             
+        }
+    }
+    isVendorCheckbox.addEventListener("change", toggleVendorFields);
+    toggleVendorFields();
+});
+</script>
+{%endblock%}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block contentblock %}
+{% if messages %}
+{% for message in messages %}
+  <p style="color: red;">{{message}}</p>
+{% endfor %}
+{% endif %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <label for="username">Username : </label>
+    <input type="text" name="username" required><br><br>
+    <label for="password">Password : </label>
+    <input type="text" name="password" required><br><br>
+    <button type="submit">Login</button>
+</form>
+<p>Don't you have an account? <a href="">Regiser Here</a></p>
+{% endblock %}
