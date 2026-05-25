@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<nav class="navbar navbar-expand-lg navbar-glass sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Signup/Login
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'account_login' %}">Login</a></li>
+            <li><a class="dropdown-item" href="{% url 'account_signup' %}">Signup</a></li>
+            <li><a class="dropdown-item" href="{% url 'become_vendor' %}">Signup as vendor</a></li>
+          </ul>
+        </li>
+        {%if user.is_authenticated%}
+        <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Welcome: {{user.username}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+        </li>
+        {%else%}
+        <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Hello, Guest! </a>
+        </li>
+        {%endif%}
+        {%if user.is_authenticated %}
+        {%if user.is_vendor %}
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'vdash' %}">Dashboard</a>
+        </li>
+        {%endif%}
+        {%endif%}
+      </ul>
+      {% if user.is_authenticated %}
+      <a href="{% url 'orders_page' %}" class="btn btn-outline-secondary me-3 d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-seam me-2" viewBox="0 0 16 16">
+          <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.84l-6.5-2.6v7.922l6.5 2.6zM5.22 4.254.896 2.52 8 1.144l7.104 1.376-4.324 1.734L8 3.5l-2.78.754z"/>
+        </svg>
+        My Orders
+      </a>
+      <a href="{% url 'cart_page' %}" class="btn btn-outline-primary me-3 d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart me-2" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+        Cart
+      </a>
+      {% endif %}
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>

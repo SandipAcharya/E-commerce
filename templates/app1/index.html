@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block contentblock %}
+<div class="row mb-5">
+    <div class="col-12 text-center">
+        <h1 class="fw-bold mb-3" style="font-size: 2.5rem; background: linear-gradient(45deg, var(--primary), #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Featured Collections</h1>
+        <p class="text-muted">Discover our handpicked selection of premium products.</p>
+    </div>
+</div>
+
+<div class="row g-4">   
+    {% if product %}
+        {% for item in product %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="product-card">
+                {% if item.vendor %}
+                    <span class="badge-vendor">{{ item.vendor.store_name }}</span>
+                {% endif %}
+                
+                <div class="product-img-wrapper">
+                    {% with item.product_image.all|first as first_image %}
+                        {% if first_image %}
+                            <img src="{{ first_image.image_name.url }}" alt="{{ item.name }}">
+                        {% else %}
+                            <!-- Fallback premium gradient if no image is found -->
+                            <div style="width:100%; height:100%; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); border-radius: 8px; display: flex; align-items:center; justify-content:center; color: white; font-weight: bold;">No Image</div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                
+                <div class="product-info">
+                    <div class="product-category">{{ item.category.name|default:"Uncategorized" }}</div>
+                    <h5 class="product-title">{{ item.name }}</h5>
+                    <div class="product-price">${{ item.price }}</div>
+                    
+                    {% if user.is_authenticated %}
+                        <button class="btn-primary-custom" onclick="addToCart({{ item.id }})">Add to Cart</button>
+                    {% else %}
+                        <button class="btn-primary-custom" onclick="redirectToSignup()">Add to Cart</button>
+                    {% endif %}
+                </div>
+            </div>   
+        </div>
+        {% endfor %} 
+    {% else %}
+        <div class="col-12 text-center py-5">
+            <h3 class="text-muted">No products found.</h3>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function redirectToSignup() {
+    alert("You must sign up first before adding items to your cart!");
+    window.location.href = "{% url 'account_signup' %}";
+}
+function addToCart(productId) {
+    fetch('/api/cart/add_item/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            'product_id': productId,
+            'quantity': 1
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            alert('Item successfully added to your cart!');
+        } else {
+            alert('Error adding item to cart.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}
