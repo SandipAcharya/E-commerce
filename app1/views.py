@@ -6,10 +6,10 @@ from .serializers import ProductSerializer, CategorySerializer, VendorSerializer
 
 # Keep existing Function Based View for frontend template testing
 def homepage(request):
-    product = Product.objects.all()
-    context = {
-        'product': product,
-    }
+    products = Product.objects.filter(
+        is_available=True
+    ).select_related('vendor', 'category').prefetch_related('product_image').order_by('-created_at')
+    context = {'product': products}
     return render(request, 'app1/index.html', context=context)
 
 @login_required(login_url='/accounts/login/')

@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.core.validators import  MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.conf import settings
 # Create your models here.
@@ -17,7 +16,7 @@ class Profile (models.Model):
 
 class Vendor(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete = models.CASCADE,related_name='vendor')
-    store_name = models.CharField(max_length= 15)
+    store_name = models.CharField(max_length=100)
     description = models.TextField(blank=True,null= True)
     logo = models.ImageField(upload_to = 'vendor_logos/',blank=True,null=True)
     subscription_plan = models.CharField(max_length=50, choices=[('basic','Basic'),('premium','Premium'),('enterprise','Enterprise')],default='basic') 
@@ -33,7 +32,7 @@ class Vendor(models.Model):
 class Category(models.Model):
    name = models.CharField(max_length = 100)
    slug = models.SlugField(unique=True) 
-   parent = models.ForeignKey('self',on_delete=models.CASCADE,blank = True,null =True,related_name = 'childern')
+   parent = models.ForeignKey('self',on_delete=models.CASCADE,blank = True,null =True,related_name = 'children')
 
    class Meta:
        verbose_name_plural = 'Categories'
@@ -189,7 +188,7 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str(self):
+    def __str__(self):
         return f'Notification for {self.user.username}'
 
 #tax variation
